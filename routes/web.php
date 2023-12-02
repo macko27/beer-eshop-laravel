@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BeerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home/index');
 });
+
+//get all beers
+Route::get('/beers', [BeerController::class, "beers"]);
+
+//create beer
+Route::get("/beers/create", [BeerController::class, "create"]);
+
+//save beer
+Route::post("/beers", [BeerController::class, "save"]);
+
+Route::delete("/beers/{beer}", [BeerController::class, "delete"]);
+
+Route::get("/beers/{beer}/edit", [BeerController::class, "edit"]);
+
+//get one beer
+Route::get("/beers/{beer}", [BeerController::class, "show"]);
