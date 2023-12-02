@@ -48,6 +48,7 @@ Route::post("/users", [UserController::class, "registerNewUser"]);
 
 Route::post("/logout", [UserController::class, "logout"])->middleware("auth");
 
+
 //->middleware("guest"); //iba ak nie je prihlaseny
 //->middleware("auth"); //iba ak je prihlaseny
 //-name("login")   //pomenovanie routy
