@@ -54,14 +54,14 @@
                 </li>
 
                 @auth
-                    <li class="nav-item">
+                    <li class="nav-item mt-2">
                         <span class="navbar-text">Prihlásený používateľ: <b>{{auth()->user()->name}}</b></span>
                     </li>
 
                     <li class="nav-item">
                         <form class="inline" method="POST" action="/logout">
                             @csrf
-                            <a class="nav-link" href="/logout">Odhlásenie</a>
+                            <button class="nav-link" type="submit">Odhlásenie</button>
                         </form>
                     </li>
                 @else

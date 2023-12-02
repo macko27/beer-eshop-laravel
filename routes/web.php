@@ -23,25 +23,31 @@ Route::get('/', function () {
 Route::get('/beers', [BeerController::class, "beers"]);
 
 //create beer
-Route::get("/beers/create", [BeerController::class, "create"]);
+Route::get("/beers/create", [BeerController::class, "create"])->middleware("auth");
 
 //save beer
-Route::post("/beers", [BeerController::class, "save"]);
+Route::post("/beers", [BeerController::class, "save"])->middleware("auth");
 
-Route::delete("/beers/{beer}", [BeerController::class, "delete"]);
+Route::delete("/beers/{beer}", [BeerController::class, "delete"])->middleware("auth");
 
-Route::get("/beers/{beer}/edit", [BeerController::class, "edit"]);
+Route::get("/beers/{beer}/edit", [BeerController::class, "edit"])->middleware("auth");
 
-Route::put("/beers/{beer}", [BeerController::class, "update"]);
+Route::put("/beers/{beer}", [BeerController::class, "update"])->middleware("auth");
 
 //get one beer
 Route::get("/beers/{beer}", [BeerController::class, "show"]);
 
-
-Route::get("/login", [UserController::class, "login"]);
+//users-----------------------
+Route::get("/login", [UserController::class, "login"])->name("login")->middleware("guest");
 
 Route::post("/users/authenticate", [UserController::class, "authenticate"]);
 
-Route::get("/register", [UserController::class, "register"]);
+Route::get("/register", [UserController::class, "register"])->middleware("guest");
 
 Route::post("/users", [UserController::class, "registerNewUser"]);
+
+Route::post("/logout", [UserController::class, "logout"])->middleware("auth");
+
+//->middleware("guest"); //iba ak nie je prihlaseny
+//->middleware("auth"); //iba ak je prihlaseny
+//-name("login")   //pomenovanie routy

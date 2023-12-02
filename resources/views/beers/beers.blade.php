@@ -59,9 +59,11 @@
                 @else
                     <p>Žiadne pivá</p>
                 @endunless
-                <div class="d-flex justify-content-between align-items-center">
-                    <a href="/beers/create" class="btn btn-custom" type="submit">Pridať</a>
-                </div>
+                @if(auth()->user()?->name == "admin")
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="/beers/create" class="btn btn-custom" type="submit">Pridať</a>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

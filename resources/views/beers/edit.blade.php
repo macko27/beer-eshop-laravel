@@ -29,7 +29,7 @@
 
             <div class="mb-3">
                 <label for="price" class="form-label">Cena</label>
-                <input type="number" min="0" class="form-control" id="price" name="price" value="{{$beer->price}}">
+                <input type="text" min="0" class="form-control" id="price" name="price" value="{{$beer->price}}">
             </div>
             @error('price')
             <p class="text-re-500 text-xs mt-1">{{$message}}</p>
@@ -37,7 +37,7 @@
 
             <div class="mb-3">
                 <label for="degree" class="form-label">Stupeň</label>
-                <input type="number" min="0" class="form-control" id="degree" name="degree" value="{{$beer->degree}}">
+                <input type="text" min="0" class="form-control" id="degree" name="degree" value="{{$beer->degree}}">
             </div>
             @error('degree')
             <p class="text-re-500 text-xs mt-1">{{$message}}</p>

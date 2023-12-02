@@ -10,16 +10,19 @@
                 <h3>Cena: {{$beer->price}} EUR</h3>
             </div>
             <p class="lead mb-4 pb-4">{{$beer->description}}</p>
-            <div class="d-flex">
+            <div class="d-flex column">
                 <input class="form-control text-center me-3" id="beerQuantity" type="num" value="1">
-                <div class="ml-4">
-                    <button type="button" class="btn btn-custom">Pridať do košíka</button>
-                    <form method="POST" action="/beers/{{$beer->id}}">
-                        @csrf
-                        @method("DELETE")
-                        <button class="btn btn-custom">Vymazať</button>
-                    </form>
-                    <a href="/beers/{{$beer->id}}/edit" class="btn btn-custom" type="submit">Upraviť</a>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-custom me-2">Pridať do košíka</button>
+
+                    @if(auth()->user()?->name == "admin")
+                        <form method="POST" action="/beers/{{$beer->id}}">
+                            @csrf
+                            @method("DELETE")
+                            <button class="btn btn-custom me-2">Vymazať</button>
+                        </form>
+                        <a href="/beers/{{$beer->id}}/edit" class="btn btn-custom me-2" type="submit">Upraviť</a>
+                    @endif
                 </div>
             </div>
         </div>

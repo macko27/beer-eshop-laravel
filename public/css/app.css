@@ -139,6 +139,11 @@ main img {
     max-width: 20rem;
 }
 
+.beer-card img {
+    min-width: 200px;
+    max-height: 200px;
+}
+
 .login-link {
     text-decoration: none;
     color: inherit;

@@ -9,12 +9,14 @@
         <div class="form">
             <h1>Prihlásenie</h1>
             <form class="form-signin" method="POST" action="/users/authenticate">
-                <span>Email</span>
-                <input name="login" id="login" type="email" placeholder="napr. login">
-                @error("login")
+                @csrf
+                <label for="email" class="form-label">Email</label>
+                <input name="email" id="email" type="email">
+                @error("email")
                     <p class="text-red-500">{{$message}}</p>
                 @enderror
-                <span>Heslo</span>
+
+                <label for="password" class="form-label">Heslo</label>
                 <input id="password" type="password" name="password" placeholder="***">
                 @error("password")
                     <p class="text-red-500">{{$message}}</p>
