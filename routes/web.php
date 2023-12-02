@@ -31,5 +31,7 @@ Route::delete("/beers/{beer}", [BeerController::class, "delete"]);
 
 Route::get("/beers/{beer}/edit", [BeerController::class, "edit"]);
 
+Route::put("/beers/{beer}", [BeerController::class, "update"]);
+
 //get one beer
 Route::get("/beers/{beer}", [BeerController::class, "show"]);

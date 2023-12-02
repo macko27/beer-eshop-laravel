@@ -19,7 +19,7 @@
                         @method("DELETE")
                         <button class="btn btn-custom">Vymazať</button>
                     </form>
-                    <a href="/beers/{{$beer->id}}/update" class="btn btn-custom" type="submit">Upraviť</a>
+                    <a href="/beers/{{$beer->id}}/edit" class="btn btn-custom" type="submit">Upraviť</a>
                 </div>
             </div>
         </div>

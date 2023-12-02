@@ -239,6 +239,8 @@ beer.html
 .container-beer img {
     min-width: 20rem;
     min-height: 20rem;
+    max-width: 205px;
+    max-height: 200px;
 }
 
 .container-beer input {
