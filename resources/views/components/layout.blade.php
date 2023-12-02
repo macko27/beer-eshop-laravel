@@ -8,7 +8,8 @@
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
+
     <script src="{{asset('js/app.js')}}" defer></script>
 </head>
 <body>
@@ -51,13 +52,27 @@
                         </svg>
                     </a>
                 </li>
-                <span class="navbar-text">Prihlásený používateľ: <b>???</b></span>
-                <li class="nav-item">
-                    <a class="nav-link" href="">Odhlásenie</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="">Prihlásenie</a>
-                </li>
+
+                @auth
+                    <li class="nav-item">
+                        <span class="navbar-text">Prihlásený používateľ: <b>{{auth()->user()->name}}</b></span>
+                    </li>
+
+                    <li class="nav-item">
+                        <form class="inline" method="POST" action="/logout">
+                            @csrf
+                            <a class="nav-link" href="/logout">Odhlásenie</a>
+                        </form>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Prihlásenie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Registrácia</a>
+                    </li>
+                @endauth
+
             </ul>
 
         </div>

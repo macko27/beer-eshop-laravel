@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BeerController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,3 +36,12 @@ Route::put("/beers/{beer}", [BeerController::class, "update"]);
 
 //get one beer
 Route::get("/beers/{beer}", [BeerController::class, "show"]);
+
+
+Route::get("/login", [UserController::class, "login"]);
+
+Route::post("/users/authenticate", [UserController::class, "authenticate"]);
+
+Route::get("/register", [UserController::class, "register"]);
+
+Route::post("/users", [UserController::class, "registerNewUser"]);
