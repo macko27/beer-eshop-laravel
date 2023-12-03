@@ -6,6 +6,7 @@
         <div class="card-body">
             <h4>{{$beer->name}}</h4><br>
             <h5>{{$beer->style}}</h5>
+            <h5>{{$beer->type}}</h5>
             <h6>{{$beer->degree}}</h6>
             <h6>Cena: {{$beer->price}} EUR</h6>
             <a href="/beers/{{$beer->id}}" class="stretched-link text-decoration-none"></a>

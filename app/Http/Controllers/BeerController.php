@@ -10,7 +10,19 @@ use Illuminate\Validation\Rule;
 class BeerController extends Controller
 {
     public function beers() {
-        return view("beers.beers", ["beers" => Beer::latest()->paginate(8)]);
+        $request = request()->query("search");
+        if ($request) {
+            $beers = Beer::where("name", "LIKE", "%{$request}%")
+                ->orWhere("style", "LIKE", "%{$request}%")
+                ->orWhere("type", "LIKE", "%{$request}%")
+                ->orWhere("price", "LIKE", "%{$request}%")
+                ->orWhere("degree", "LIKE", "%{$request}%")
+                ->orWhere("brewery", "LIKE", "%{$request}%")->paginate(6);
+        } else {
+            $beers = Beer::paginate(6);
+        }
+
+        return view("beers.beers", ["beers" => $beers]);
     }
 
     public function show(Beer $beer) {

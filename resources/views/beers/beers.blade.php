@@ -65,6 +65,11 @@
                     </div>
                 @endif
             </div>
+
+            <div class="mt-4 p-4">
+                {{ $beers->links() }}
+            </div>
+
         </div>
     </div>
 </div>
