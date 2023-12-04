@@ -9,8 +9,8 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
-
-    <script src="{{asset('js/app.js')}}" defer></script>
+    <script src="{{ asset('js/app.js')}}" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
 <nav class="navbar fixed-top navbar-expand-lg">
@@ -55,7 +55,7 @@
 
                 @auth
                     <li class="nav-item mt-2">
-                        <span class="navbar-text">Prihlásený používateľ: <b>{{auth()->user()->name}}</b></span>
+                        <span class="navbar-text">Prihlásený používateľ: <b>{{auth()->user()?->name}}</b></span>
                     </li>
 
                     <li class="nav-item">

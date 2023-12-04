@@ -22,9 +22,9 @@
                 <li class="my-2">
                     <button class="btn d-inline-flex align-items-center border-0 collapsed" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#contents-collapse" aria-controls="contents-collapse">Pivovar</button>
                     <ul class="list-unstyled ps-3 collapse" id="contents-collapse" style="">
-                        <li><a class="d-inline-flex align-items-center rounded text-decoration-none" href="#typography">Zvolenský remeselný pivovar</a></li>
-                        <li><a class="d-inline-flex align-items-center rounded text-decoration-none" href="#images">Baran</a></li>
-                        <li><a class="d-inline-flex align-items-center rounded text-decoration-none" href="#tables">Vŕšky</a></li>
+                        <li><a class="d-inline-flex align-items-center rounded text-decoration-none" href="/zrp">Zvolenský remeselný pivovar</a></li>
+                        <li><a class="d-inline-flex align-items-center rounded text-decoration-none" href="/baran">Baran</a></li>
+                        <li><a class="d-inline-flex align-items-center rounded text-decoration-none" href="/vrsky">Vŕšky</a></li>
                     </ul>
                 </li>
                 <li class="my-2">
