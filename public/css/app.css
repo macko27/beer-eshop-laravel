@@ -152,8 +152,6 @@ main img {
     transition: border-bottom 0.3s;
 }
 
-
-
 .card a .stretched-link:hover {
     height: 30rem;
 }

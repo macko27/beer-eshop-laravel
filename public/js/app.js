@@ -10,20 +10,32 @@ window.addEventListener('scroll', function () {
     }
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    let addToCartButton = document.querySelector(".container-beer .addToCart");
+    if (addToCartButton) {
+        addToCartButton.addEventListener("click", function () {
+            let beerID = document.querySelector(".beerID").value;
+            let quantitty = document.getElementById("beerQuantity").value;
 
-async function postData(url = "/zrp", data = {}) {
-    const response = await fetch(url, {
-        method: "GET", // *GET, POST, PUT, DELETE, etc.
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data), // body data type must match "Content-Type" header
-    });
-    return response.json(); // parses JSON response into native JavaScript objects
-}
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
-postData("https://example.com/answer", { answer: 42 }).then((data) => {
-    console.log(data); // JSON data parsed by `data.json()` call
-});
+            $.ajax({
+                method: "POST",
+                url: "/add-to-cart",
+                data: {
+                    "beerID": beerID,
+                    "quantity": quantitty
+                },
+                success: function (response) {
+                    alert(response.message);
+                }
+            });
+        });
+    }
+})
 
 

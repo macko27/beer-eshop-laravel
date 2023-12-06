@@ -9,8 +9,11 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
-    <script src="{{ asset('js/app.js')}}" defer></script>
+    <script async src="{{ asset('js/app.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 <body>
 <nav class="navbar fixed-top navbar-expand-lg">
