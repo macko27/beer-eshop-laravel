@@ -31,5 +31,6 @@
 
         <x-reviews :reviews="$reviews" />
 
+    </div>
 </div>
 </x-layout>

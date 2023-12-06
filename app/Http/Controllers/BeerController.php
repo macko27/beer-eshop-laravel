@@ -27,8 +27,7 @@ class BeerController extends Controller
 
     public function show(Beer $beer) {
         $beerId = $beer->id;
-        $userId = auth()->id();
-        $reviews = Review::where("beer_id", $beerId)->where("user_id", $userId)->get();
+        $reviews = Review::where("beer_id", $beerId)->get();
         return view("beers.beer", [
             "beer" => $beer,
             "reviews" => $reviews
