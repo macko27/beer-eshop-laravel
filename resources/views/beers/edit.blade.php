@@ -53,7 +53,7 @@
 
             <div class="mb-3">
                 <label for="picture" class="form-label">Vyber obrázok</label>
-                <input class="form-control" type="file" id="picture" name="picture" required>
+                <input class="form-control" type="file" id="picture" name="picture">
                 <img src="{{asset("storage/" . $beer->picture)}}">
             </div>
             @error('picture')
