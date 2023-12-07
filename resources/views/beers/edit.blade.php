@@ -37,7 +37,7 @@
 
             <div class="mb-3">
                 <label for="degree" class="form-label">Stupeň</label>
-                <input type="text" min="0" class="form-control" id="degree" name="degree" value="{{$beer->degree}}">
+                <input type="text" min="0" class="form-control" id="degree" name="degree" value="{{$beer->degree}}" required>
             </div>
             @error('degree')
             <p class="text-re-500 text-xs mt-1">{{$message}}</p>
@@ -45,7 +45,7 @@
 
             <div class="mb-3">
                 <label for="brewery" class="form-label">Pivovar</label>
-                <input type="text" class="form-control" id="brewery" name="brewery" value="{{$beer->brewery}}">
+                <input type="text" class="form-control" id="brewery" name="brewery" value="{{$beer->brewery}}" required>
             </div>
             @error('brewery')
             <p class="text-re-500 text-xs mt-1">{{$message}}</p>
@@ -53,7 +53,7 @@
 
             <div class="mb-3">
                 <label for="picture" class="form-label">Vyber obrázok</label>
-                <input class="form-control" type="file" id="picture" name="picture">
+                <input class="form-control" type="file" id="picture" name="picture" required>
                 <img src="{{asset("storage/" . $beer->picture)}}">
             </div>
             @error('picture')
@@ -62,7 +62,7 @@
 
             <div class="mb-3">
                 <label for="description" class="form-label"></label>
-                <textarea class="form-control" id="description" name="description" rows="3">{{$beer->description}}</textarea>
+                <textarea class="form-control" id="description" name="description" rows="3" required>{{$beer->description}}</textarea>
             </div>
             @error('description')
             <p class="text-re-500 text-xs mt-1">{{$message}}</p>
