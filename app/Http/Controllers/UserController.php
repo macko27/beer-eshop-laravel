@@ -41,7 +41,7 @@ class UserController extends Controller
         $newUser = User::create($userRequest);
         auth()->login($newUser);
 
-        return redirect("/");
+        return redirect("/")->with("message", "Uspesne prihlasenie");
     }
 
     public function logout(Request $request) {

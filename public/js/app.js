@@ -38,5 +38,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 })
 
+setTimeout(function() {
+    $('#customAlert').alert('close');
+}, 2000);
+
 
 

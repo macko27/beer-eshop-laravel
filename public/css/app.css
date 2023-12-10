@@ -103,6 +103,11 @@ main {
     min-height: 100vh;
 }
 
+.alert {
+    width: 50%;
+    text-align: center;
+}
+
 /*
 index.html
  */

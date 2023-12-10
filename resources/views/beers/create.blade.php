@@ -66,7 +66,7 @@
         <p class="text-re-500 text-xs mt-1">{{$message}}</p>
         @enderror
 
-        <button class="btn btn-custom" type="submit">Potvrdiť</button>
+        <button class="btn btn-custom" id="beerCreate" type="submit">Potvrdiť</button>
 
     </form>
 </div>
