@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\BeerController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +49,10 @@ Route::post("/users", [UserController::class, "registerNewUser"]);
 
 Route::post("/logout", [UserController::class, "logout"])->middleware("auth");
 
+
+//->middleware("guest"); //iba ak nie je prihlaseny
+//->middleware("auth"); //iba ak je prihlaseny
+//-name("login")   //pomenovanie routy
 
 
 Route::post("/add-to-cart", [CartController::class, "add"]);
