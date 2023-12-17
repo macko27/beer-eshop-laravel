@@ -68,6 +68,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 "beerID": beerID,
                 "newQuantity": newQuantity
             },
+            success: function () {
+                location.reload();
+            },
             error: function (error) {
                 console.error("Error:", error);
             }
@@ -75,13 +78,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-
 document.addEventListener("DOMContentLoaded", function () {
     let deleteButtons = document.querySelectorAll(".cart-delete");
 
     deleteButtons.forEach(function (button) {
-        button.addEventListener("change", function () {
+        button.addEventListener("click", function (event) {
+            event.preventDefault();
             let beerID = button.dataset.beerId;
+
+            console.log(beerID);
 
             $.ajaxSetup({
                 headers: {
@@ -100,8 +105,8 @@ document.addEventListener("DOMContentLoaded", function () {
             data: {
                 "beerID": beerID
             },
-            success: function (response) {
-                alert(response.message);
+            success: function () {
+                location.reload();
             },
             error: function (error) {
                 console.error("Error:", error);
@@ -113,5 +118,4 @@ document.addEventListener("DOMContentLoaded", function () {
 setTimeout(function() {
     $('#customAlert').alert('close');
 }, 2000);
-
 

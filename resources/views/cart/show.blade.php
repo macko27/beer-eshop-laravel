@@ -24,7 +24,7 @@
                     </td>
                     <td>{{ $cartItem['beer']->price * $cartItem['quantity'] }}€</td>
                     <td>
-                        <a href="#" class="cart-delete" data-beer-id="{{ $cartItem['beer']->id }}"><i class="bi bi-x-lg"></i></a>
+                        <button class="cart-delete" data-beer-id="{{ $cartItem['beer']->id }}"><i class="bi bi-x-lg"></i></button>
                     </td>
                 </tr>
             @endforeach
