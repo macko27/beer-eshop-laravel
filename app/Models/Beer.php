@@ -12,10 +12,6 @@ class Beer extends Model
 
     use HasFactory;
 
-    public function filterBeers($querry, array $request) {
-        dd($request["search"]);
-    }
-
     public function review() {
         return $this->hasMany(Review::class, "beer_id");
     }

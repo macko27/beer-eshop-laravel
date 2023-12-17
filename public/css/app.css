@@ -204,3 +204,21 @@ beer.html
 .form-control {
     border-color: black;
 }
+
+
+/*
+cart
+ */
+.cart-container {
+    margin: 5rem 10rem 2rem 10rem;
+}
+
+.cart-container img {
+    width: 5rem;
+    height: 5rem;
+}
+
+.cart-container td {
+    width: 15rem;
+    height: 5rem;
+}

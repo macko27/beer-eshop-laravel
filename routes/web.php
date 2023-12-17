@@ -51,5 +51,11 @@ Route::post("/users", [UserController::class, "registerNewUser"]);
 Route::post("/logout", [UserController::class, "logout"])->middleware("auth");
 
 
+Route::get("/cart", [CartController::class, "show"]);
 
 Route::post("/add-to-cart", [CartController::class, "add"]);
+
+Route::post("update-cart", [CartController::class, "update"]);
+
+Route::delete("/cart-delete", [CartController::class, "delete"]);
+
