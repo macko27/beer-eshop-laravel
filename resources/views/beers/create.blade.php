@@ -59,7 +59,7 @@
         @enderror
 
         <div class="mb-3">
-            <label for="description" class="form-label"></label>
+            <label for="description" class="form-label">Popis</label>
             <textarea class="form-control" id="description" name="description" rows="3" required>{{old("description")}}</textarea>
         </div>
         @error('description')

@@ -119,3 +119,31 @@ setTimeout(function() {
     $('#customAlert').alert('close');
 }, 2000);
 
+
+document.addEventListener("DOMContentLoaded", function () {
+    $('#filterButton').on('click', function () {
+        let filter1Value = $('#filter1').val();
+        let filter2Value = $('#filter2').val();
+        // Ďalšie filtre...
+
+        loadFilteredResults(filter1Value, filter2Value);
+    });
+
+    function loadFilteredResults(filter1, filter2) {
+        $.ajax({
+            method: 'GET',
+            url: '/filtruj',
+            data: {
+                "filter1": filter1,
+                "filter2": filter2
+                // Ďalšie filtre...
+            },
+            success: function (response) {
+                $('#filteredResults').html(response);
+            },
+            error: function (error) {
+                console.error('Chyba:', error);
+            }
+        });
+    }
+});
