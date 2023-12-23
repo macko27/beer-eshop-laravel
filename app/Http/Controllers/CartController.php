@@ -5,22 +5,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Beer;
 use App\Models\Cart;
+use App\Models\Review;
 
 class CartController extends Controller
 {
     public function show() {
-        $cart = session()->get('cart', []);
+        $cart = session()->get("cart", "[]");
+        $cartArray = json_decode($cart, true);
         $cartItems = [];
 
-        foreach ($cart as $cartItem) {
-            $beer = Beer::find($cartItem['beer_id']);
-            if ($beer) {
-                $cartItems[] = [
-                    'beer' => $beer,
-                    'quantity' => $cartItem['quantity'],
-                ];
+        if (is_array($cartArray)) {
+            foreach ($cartArray as $cartItem) {
+                $beerId = $cartItem["beer_id"];
+                $quantity = $cartItem["quantity"];
+                $beer = Beer::find($beerId);
+                if ($beer) {
+                    $cartItems[] = [
+                        "beer" => $beer,
+                        "quantity" => $quantity,
+                    ];
+                }
             }
         }
+
         return view("cart.show", ["cartItems" => $cartItems]);
     }
 
@@ -32,51 +39,55 @@ class CartController extends Controller
             return response()->json(["message" => "Pivo nebolo nájdené!"], 404);
         }
 
-        $cart = session()->get('cart', []);
+        $cart = json_decode(session()->get("cart", "[]"), true);
 
         if (isset($cart[$beerID])) {
-            $cart[$beerID]['quantity'] += $quantity;
+            $cart[$beerID]["quantity"] += $quantity;
         } else {
-            $cart[$beerID] = [
-                'beer_id' => $beerID,
-                'quantity' => $quantity,
-            ];
+            $beer = Beer::find($beerID);
+
+            if ($beer) {
+                $cart[$beerID] = [
+                    "beer_id" => $beerID,
+                    "quantity" => $quantity,
+                    "picture" => $beer->picture,
+                    "name" => $beer->name,
+                    "price" => $beer->price
+                ];
+            }
         }
 
-        session()->put("cart", $cart);
-        return response()->json(['message' => "Pivo bolo úspešne pridané do košíka."]);
+        session()->put('cart', json_encode($cart));
+
+        return response()->json(["message" => "Pivo bolo úspešne pridané do košíka.", "cart" => $cart]);
     }
+
 
     public function update() {
         $beerID = request()->input('beerID');
         $newQuantity = request()->input('newQuantity');
 
-        $cart = session()->get('cart', []);
+        $cart = json_decode(session()->get("cart", "[]"), true);
 
         if (isset($cart[$beerID])) {
             $cart[$beerID]['quantity'] = $newQuantity;
-        } else {
-            $cart[$beerID] = [
-                'beer_id' => $beerID,
-                'quantity' => $newQuantity
-            ];
         }
 
-        session()->put("cart", $cart);
+        session()->put('cart', json_encode($cart));
 
-        return response()->json(['message' => "Množstvo bolo aktualizované."]);
+        return response()->json(['message' => "Množstvo bolo aktualizované.", "cart" => $cart]);
     }
 
     public function delete() {
         $beerID = request()->input('beerID');
-        $cart = session()->get('cart', []);
+        $cart = json_decode(session()->get("cart", "[]"), true);
 
         if (isset($cart[$beerID])) {
             unset($cart[$beerID]);
-            session()->put("cart", $cart);
+            session()->put('cart', json_encode($cart));
 
 
-            return response()->json(['message' => "Položka bola odstránená z košíku."]);
+            return response()->json(['message' => "Položka bola odstránená z košíku.", "cart" => $cart]);
         } else {
             return response()->json(['message' => "Položka nebola nájdená"]);
         }

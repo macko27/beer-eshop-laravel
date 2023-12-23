@@ -1,149 +1,124 @@
 //import './bootstrap.js';
 
-window.addEventListener('scroll', function () {
-    let navbar = document.querySelector('.navbar');
-
-    if (window.scrollY > 50) {
-        navbar.classList.add('transparent');
-    } else {
-        navbar.classList.remove('transparent');
-    }
-});
-
 document.addEventListener("DOMContentLoaded", function () {
+    // Navbar scroll listener
+    window.addEventListener('scroll', function () {
+        let navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('transparent');
+        } else {
+            navbar.classList.remove('transparent');
+        }
+    });
+
+    // Add to cart button
     let addToCartButton = document.querySelector(".container-beer .addToCart");
     if (addToCartButton) {
         addToCartButton.addEventListener("click", function () {
             let beerID = document.querySelector(".beerID").value;
             let quantity = document.getElementById("beerQuantity").value;
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $.ajax({
-                method: "POST",
-                url: "/add-to-cart",
-                data: {
-                    "beerID": beerID,
-                    "quantity": quantity
-                },
-                success: function (response) {
-                    alert(response.message);
-                },
-                error: function (error) {
-                    console.error("Error:", error);
-                }
-            });
+            ajax("POST", "/add-to-cart", { "beerID": beerID, "quantity": quantity });
         });
     }
-})
 
-
-document.addEventListener("DOMContentLoaded", function () {
+    // Quantity change inputs
     let quantityInputs = document.querySelectorAll(".beer-quantity-change");
-
     quantityInputs.forEach(function (input) {
         input.addEventListener("change", function () {
             let beerID = input.dataset.beerId;
             let newQuantity = input.value;
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            updateCartQuantity(beerID, newQuantity);
+            ajax("POST", "/update-cart", { "beerID": beerID, "newQuantity": newQuantity });
         });
     });
 
-    function updateCartQuantity(beerID, newQuantity) {
-        $.ajax({
-            method: "POST",
-            url: "/update-cart",
-            data: {
-                "beerID": beerID,
-                "newQuantity": newQuantity
-            },
-            success: function () {
-                location.reload();
-            },
-            error: function (error) {
-                console.error("Error:", error);
-            }
-        });
-    }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
+    // Delete buttons
     let deleteButtons = document.querySelectorAll(".cart-delete");
-
     deleteButtons.forEach(function (button) {
         button.addEventListener("click", function (event) {
             event.preventDefault();
             let beerID = button.dataset.beerId;
-
-            console.log(beerID);
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            deleteCartItem(beerID);
+            ajax("DELETE", "/cart-delete", { "beerID": beerID });
         });
     });
 
-    function deleteCartItem(beerID) {
-        $.ajax({
-            method: "DELETE",
-            url: "/cart-delete",
-            data: {
-                "beerID": beerID
-            },
-            success: function () {
-                location.reload();
-            },
-            error: function (error) {
-                console.error("Error:", error);
-            }
-        });
-    }
-})
-
-setTimeout(function() {
-    $('#customAlert').alert('close');
-}, 2000);
-
-
-document.addEventListener("DOMContentLoaded", function () {
+    // Filter button
     $('#filterButton').on('click', function () {
         let filter1Value = $('#filter1').val();
         let filter2Value = $('#filter2').val();
-        // Ďalšie filtre...
-
         loadFilteredResults(filter1Value, filter2Value);
     });
 
-    function loadFilteredResults(filter1, filter2) {
-        $.ajax({
-            method: 'GET',
-            url: '/filtruj',
-            data: {
-                "filter1": filter1,
-                "filter2": filter2
-                // Ďalšie filtre...
-            },
-            success: function (response) {
-                $('#filteredResults').html(response);
-            },
-            error: function (error) {
-                console.error('Chyba:', error);
-            }
-        });
-    }
+    // Close custom alert after 2 seconds
+    setTimeout(function () {
+        $('#customAlert').alert('close');
+    }, 2000);
 });
+
+async function updateCartItems(cart) {
+    var tableBody = document.querySelector('.cart-container table tbody');
+    if (!tableBody) {
+        //console.error('Table body not found. Aborting updateCartItems.');
+        return;
+    }
+    tableBody.innerHTML = ''; // Clear the existing table body
+
+    var cartArray = Object.values(cart);
+
+
+    cartArray.forEach(function (cartItem) {
+        var newRow = '<tr>' +
+            '<td><img src="' + "storage/" + cartItem.picture + '" alt="beer"></td>' +
+            '<td>' + cartItem.name + '</td>' +
+            '<td><input class="text-center me-3 beer-quantity-change" data-beer-id="' + cartItem.beer_id + '" type="number" value="' + cartItem.quantity + '"></td>' +
+            '<td>' + (cartItem.price * cartItem.quantity) + '€</td>' +
+            '<td><button class="cartItem-delete" data-beer-id="' + cartItem.beer_id + '"><i class="bi bi-x-lg"></i></button></td>' +
+            '</tr>';
+        tableBody.insertAdjacentHTML('beforeend', newRow);
+    });
+
+    // Calculate total items and total price
+    //var totalItems = cart.reduce((total, cartItem) => total + cartItem.quantity, 0);
+    //var totalPrice = cart.reduce((total, cartItem) => total + (cartItem.price * cartItem.quantity), 0);
+
+    //document.querySelector('.cart-container .total.items').textContent = 'Total: ' + totalItems + ' items';
+    //document.querySelector('.cart-container .total.price').textContent = 'Total Price: ' + totalPrice + '€';
+}
+
+function ajax(method, url, data) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        method: method,
+        url: url,
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function (response) {
+            updateCartItems(response.cart);
+            alert(response.message);
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+function loadFilteredResults(filter1, filter2) {
+    $.ajax({
+        method: 'GET',
+        url: '/filtruj',
+        data: {
+            "filter1": filter1,
+            "filter2": filter2
+        },
+        success: function (response) {
+            $('#filteredResults').html(response);
+        },
+        error: function (error) {
+            console.error('Chyba:', error);
+        }
+    });
+}
