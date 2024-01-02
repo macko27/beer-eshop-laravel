@@ -15,7 +15,7 @@
             </thead>
             <tbody>
             @foreach ($cartItems as $cartItem)
-                <tr>
+                <tr id="cartItem">
                     <td><img src="{{asset("storage/" . $cartItem['beer']->picture)}}" alt="beer"></td>
                     <td>{{ $cartItem['beer']->name }}</td>
 

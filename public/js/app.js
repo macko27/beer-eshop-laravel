@@ -98,7 +98,7 @@ function ajax(method, url, data) {
         data: JSON.stringify(data),
         success: function (response) {
             updateCartItems(response.cart);
-            alert(response.message);
+            //alert(response.message);
         },
         error: function (error) {
             console.error("Error:", error);

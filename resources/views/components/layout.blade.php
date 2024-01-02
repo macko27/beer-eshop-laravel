@@ -102,8 +102,8 @@
                     Linky
                 </h6>
                 <ul class="list-unstyled">
-                    <li><a href="/" class="text-reset">Domov</a></li>
-                    <li><a href="/index" class="text-reset">Predaj</a></li>
+                    <li><a id="home" href="/" class="text-reset">Domov</a></li>
+                    <li><a id="sell" href="/index" class="text-reset">Predaj</a></li>
                 </ul>
             </div>
             <div class="col-md-3">

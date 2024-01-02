@@ -13,28 +13,28 @@
                     <label for="name" class="form-label">Meno</label>
                     <input name="name" id="name" type="text" value="{{old("name")}}">
                     @error("name")
-                    <p id="wrongInput" class="text-red-500">{{$message}}</p>
+                    <p id="wrongInputName" class="text-red-500">{{$message}}</p>
                     @enderror
 
                     <label for="email" class="form-label">Email</label>
                     <input name="email" id="email" type="email" value="{{old("email")}}">
                     @error("email")
-                    <p id="wrongInput" class="text-red-500">{{$message}}</p>
+                    <p id="wrongInputEmail" class="text-red-500">{{$message}}</p>
                     @enderror
 
                     <label for="password" class="form-label">Heslo</label>
                     <input id="password" type="password" name="password">
                     @error("password")
-                    <p id="wrongInput" class="text-red-500">{{$message}}</p>
+                    <p id="wrongInputPassword" class="text-red-500">{{$message}}</p>
                     @enderror
 
                     <label for="password_confirmation" class="form-label">Potvrď heslo</label>
                     <input id="password_confirmation" type="password" name="password_confirmation">
                     @error("password_confirmation")
-                    <p id="wrongInput" class="text-red-500">{{$message}}</p>
+                    <p id="wrongInputPassword2" class="text-red-500">{{$message}}</p>
                     @enderror
 
-                    <button class="item btn-custom" type="submit" name="submit">Registrovať</button>
+                    <button id="register" class="item btn-custom" type="submit" name="submit">Registrovať</button>
                 </form>
             </div>
         </main>

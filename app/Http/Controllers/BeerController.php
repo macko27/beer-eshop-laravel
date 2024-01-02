@@ -18,6 +18,7 @@ class BeerController extends Controller
                 ->orWhere("price", "LIKE", "%{$request}%")
                 ->orWhere("degree", "LIKE", "%{$request}%")
                 ->orWhere("brewery", "LIKE", "%{$request}%")->paginate(6);
+            $beers->appends(['search' => $request]);
         } else {
             $beers = Beer::paginate(6);
         }
