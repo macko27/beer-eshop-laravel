@@ -64,16 +64,15 @@ class CartController extends Controller
 
 
     public function update() {
-        $beerID = request()->input('beerID');
-        $newQuantity = request()->input('newQuantity');
-
+        $beerID = request()->input("beerID");
+        $newQuantity = request()->input("newQuantity");
         $cart = json_decode(session()->get("cart", "[]"), true);
 
         if (isset($cart[$beerID])) {
-            $cart[$beerID]['quantity'] = $newQuantity;
+            $cart[$beerID]["quantity"] = $newQuantity;
         }
 
-        session()->put('cart', json_encode($cart));
+        session()->put("cart", json_encode($cart));
 
         return response()->json(['message' => "Množstvo bolo aktualizované.", "cart" => $cart]);
     }
@@ -85,7 +84,6 @@ class CartController extends Controller
         if (isset($cart[$beerID])) {
             unset($cart[$beerID]);
             session()->put('cart', json_encode($cart));
-
 
             return response()->json(['message' => "Položka bola odstránená z košíku.", "cart" => $cart]);
         } else {

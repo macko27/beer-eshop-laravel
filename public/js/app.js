@@ -55,26 +55,62 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 async function updateCartItems(cart) {
-    var tableBody = document.querySelector('.cart-container table tbody');
+    let tableBody = document.querySelector(".cart-container table tbody");
     if (!tableBody) {
-        //console.error('Table body not found. Aborting updateCartItems.');
         return;
     }
-    tableBody.innerHTML = ''; // Clear the existing table body
 
-    var cartArray = Object.values(cart);
+    let cartArray = Object.values(cart);
+
+    if (cartArray.length === 0) {
+        tableBody = document.querySelector(".cart-container");
+        tableBody.innerHTML = "";
+        let p = document.createElement("p");
+        let h1 = document.createElement("h1");
+        p.innerHTML = "Tvoj košík je prázdny.";
+        h1.innerHTML = "Tvoj nákupný košík";
+        tableBody.appendChild(h1);
+        tableBody.appendChild(p);
+    } else {
+        tableBody.innerHTML = "";
+        cartArray.forEach(function (cartItem) {
+            let newRow = document.createElement("tr");
+            newRow.innerHTML = '<td><img src="' + "storage/" + cartItem.picture + '" alt="beer"></td>' +
+                '<td>' + cartItem.name + '</td>' +
+                '<td><input class="text-center me-3 beer-quantity-change" data-beer-id="' + cartItem.beer_id + '" type="number" value="' + cartItem.quantity + '"></td>' +
+                '<td>' + (cartItem.price * cartItem.quantity) + '€</td>' +
+                '<td><button class="cart-delete" data-beer-id="' + cartItem.beer_id + '"><i class="bi bi-x-lg"></i></button></td>';
+            newRow.id = "cartItem";
+            tableBody.appendChild(newRow);
+
+            let cartItemDeleteButton = newRow.querySelector(".cart-delete");
+            cartItemDeleteButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                let beerID = cartItem.beer_id;
+                ajax("DELETE", "/cart-delete", { "beerID": beerID });
+            });
 
 
-    cartArray.forEach(function (cartItem) {
-        var newRow = '<tr>' +
-            '<td><img src="' + "storage/" + cartItem.picture + '" alt="beer"></td>' +
-            '<td>' + cartItem.name + '</td>' +
-            '<td><input class="text-center me-3 beer-quantity-change" data-beer-id="' + cartItem.beer_id + '" type="number" value="' + cartItem.quantity + '"></td>' +
-            '<td>' + (cartItem.price * cartItem.quantity) + '€</td>' +
-            '<td><button class="cartItem-delete" data-beer-id="' + cartItem.beer_id + '"><i class="bi bi-x-lg"></i></button></td>' +
-            '</tr>';
-        tableBody.insertAdjacentHTML('beforeend', newRow);
-    });
+
+
+
+            let quantityInput = newRow.querySelector(".beer-quantity-change");
+            quantityInput.addEventListener("change", function (event) {
+                event.preventDefault();
+                let beerID = cartItem.beer_id;
+                let newQuantity = quantityInput.value;
+                ajax("POST", "/update-cart", { "beerID": beerID, "newQuantity": newQuantity });
+            });
+
+
+        });
+    }
+
+
+
+
+
+
 
     // Calculate total items and total price
     //var totalItems = cart.reduce((total, cartItem) => total + cartItem.quantity, 0);
