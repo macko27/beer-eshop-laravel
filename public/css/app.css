@@ -26,6 +26,21 @@ styl vseobecne pre vsetky
     color: var(--text-second-color);
 }
 
+.navbar-toggler {
+    color: var(--background-second-color);
+}
+
+@media (max-width: 991px) {
+    .navbar ul.navbar-nav  {
+        background-color: #3E2500;
+        transition: background-color 0.5s ease-in-out;
+    }
+    .navbar.transparent ul.navbar-nav  {
+        background-color: rgba(62, 37, 0, 0.85);
+        transition: background-color 0.5s ease-in-out;
+    }
+}
+
 body {
     background-color: var(--background-main-color);
     color: var(--text-main-color);
@@ -57,7 +72,10 @@ body {
 }
 
 .nav-link:hover {
-    border-bottom: 2px solid var(--text-main-hoover);;
+    border-bottom: 2px solid var(--text-main-hoover);
+}
+.nav-link:active {
+    color: white;
 }
 
 .nav-item a:hover svg path {
@@ -222,3 +240,4 @@ cart
     width: 15rem;
     height: 5rem;
 }
+
