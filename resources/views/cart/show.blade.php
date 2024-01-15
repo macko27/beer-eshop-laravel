@@ -31,10 +31,9 @@
             </tbody>
         </table>
 
-        <p class="total">Total: {{ array_sum(array_column($cartItems, 'quantity')) }} items</p>
-        <p class="total">Total Price: {{ array_sum(array_map(function ($item) { return $item['beer']->price * $item['quantity']; }, $cartItems)) }}</p>
+        <p class="my-4" id="cart-price"></p>
 
-        <button class="addToCart" onclick="checkout()">Checkout</button>
+        <a class="my-4 btn btn-custom" href="/cart/order">Objednať</a>
     @else
         <p>Your cart is empty.</p>
     @endif

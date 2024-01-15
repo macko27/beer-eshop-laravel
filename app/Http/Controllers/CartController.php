@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Beer;
+use App\Models\BeerOrder;
 use App\Models\Cart;
+use App\Models\Order;
 use App\Models\Review;
 
 class CartController extends Controller
@@ -90,5 +92,32 @@ class CartController extends Controller
             return response()->json(['message' => "Položka nebola nájdená"]);
         }
 
+    }
+
+    public function buy() {
+        $cart = session()->get("cart", "[]");
+        $cartArray = json_decode($cart, true);
+
+
+        if (auth()->check()) {
+            $userID = auth()->user()->id;
+            $order = new Order();
+            $order->user_id = $userID;
+            $order->state = 0;
+            $order->save();
+
+            $orderID = $order->id;
+            if (is_array($cartArray)) {
+                foreach ($cartArray as $cartItem) {
+                    $beerOrder = new BeerOrder();
+                    $beerOrder->order_id = $orderID;
+                    $beerOrder->beer_id = $cartItem["beer_id"];
+                    $beerOrder->quantity = $cartItem["quantity"];
+                    $beerOrder->save();
+                }
+            }
+        }
+
+        return redirect("/");
     }
 }

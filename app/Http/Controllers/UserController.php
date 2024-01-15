@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -51,5 +52,17 @@ class UserController extends Controller
         $request->session()->regenerateToken();
 
         return redirect("/");
+    }
+
+    public function show($userName) {
+        $user = User::where("name", $userName)->get()->first();
+        if ($userName != auth()->user()->name) {
+            abort(404);
+        }
+        if ($user != null) {
+            return view("users.show", ["user" => $user]);
+        } else {
+            abort(404);
+        }
     }
 }

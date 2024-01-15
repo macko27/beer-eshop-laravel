@@ -73,7 +73,10 @@ async function updateCartItems(cart) {
         tableBody.appendChild(p);
     } else {
         tableBody.innerHTML = "";
+        let priceP = document.getElementById("cart-price");
+        let price = 0;
         cartArray.forEach(function (cartItem) {
+            price += cartItem.price * cartItem.quantity;
             let newRow = document.createElement("tr");
             newRow.innerHTML = '<td><img src="' + "storage/" + cartItem.picture + '" alt="beer"></td>' +
                 '<td>' + cartItem.name + '</td>' +
@@ -90,10 +93,6 @@ async function updateCartItems(cart) {
                 ajax("DELETE", "/cart-delete", { "beerID": beerID });
             });
 
-
-
-
-
             let quantityInput = newRow.querySelector(".beer-quantity-change");
             quantityInput.addEventListener("change", function (event) {
                 event.preventDefault();
@@ -101,9 +100,8 @@ async function updateCartItems(cart) {
                 let newQuantity = quantityInput.value;
                 ajax("POST", "/update-cart", { "beerID": beerID, "newQuantity": newQuantity });
             });
-
-
         });
+        priceP.innerHTML = "Celková cena je: " + price;
     }
 
 

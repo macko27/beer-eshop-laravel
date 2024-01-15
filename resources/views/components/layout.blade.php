@@ -57,8 +57,8 @@
                 </li>
 
                 @auth
-                    <li class="nav-item mt-2">
-                        <span class="navbar-text">Prihlásený používateľ: <b>{{auth()->user()?->name}}</b></span>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/{{auth()->user()?->name}}">{{auth()->user()?->name}}</a>
                     </li>
 
                     <li class="nav-item">
