@@ -73,9 +73,12 @@ class CartController extends Controller
         $cart = json_decode(session()->get("cart", "[]"), true);
 
         if (isset($cart[$beerID])) {
-            $cart[$beerID]["quantity"] = $newQuantity;
+            if ($newQuantity > 0) {
+                $cart[$beerID]["quantity"] = $newQuantity;
+            } else {
+                unset($cart[$beerID]);
+            }
         }
-
         session()->put("cart", json_encode($cart));
 
         return response()->json(['message' => "Množstvo bolo aktualizované.", "cart" => $cart]);
