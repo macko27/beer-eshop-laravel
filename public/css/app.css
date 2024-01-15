@@ -30,6 +30,19 @@ styl vseobecne pre vsetky
     color: var(--background-second-color);
 }
 
+.cart-number {
+    position: relative;
+}
+
+.cart-number span{
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    position: absolute;
+    top: -2rem;
+    right: -0.5rem;
+}
+
 @media (max-width: 991px) {
     .navbar ul.navbar-nav  {
         background-color: #3E2500;

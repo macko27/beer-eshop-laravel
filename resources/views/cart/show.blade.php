@@ -31,9 +31,9 @@
             </tbody>
         </table>
 
-        <p class="my-4" id="cart-price"></p>
+        <p class="my-4" id="cart-price">Celková cena je: {{$price}}€</p>
 
-        <a class="my-4 btn btn-custom" href="/cart/order">Objednať</a>
+        <a class="my-4 btn btn-custom" href="/cart/order">Pokračovať</a>
     @else
         <p>Your cart is empty.</p>
     @endif

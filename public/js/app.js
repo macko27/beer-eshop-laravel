@@ -1,6 +1,10 @@
 //import './bootstrap.js';
 
+
 document.addEventListener("DOMContentLoaded", function () {
+
+    updateCartAmount();
+
     // Navbar scroll listener
     window.addEventListener('scroll', function () {
         let navbar = document.querySelector('.navbar');
@@ -41,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    /*
     // Filter button
     $('#filterButton').on('click', function () {
         let filter1Value = $('#filter1').val();
@@ -48,7 +53,9 @@ document.addEventListener("DOMContentLoaded", function () {
         loadFilteredResults(filter1Value, filter2Value);
     });
 
-    // Close custom alert after 2 seconds
+     */
+
+
     setTimeout(function () {
         $('#customAlert').alert('close');
     }, 2000);
@@ -101,24 +108,11 @@ async function updateCartItems(cart) {
                 ajax("POST", "/update-cart", { "beerID": beerID, "newQuantity": newQuantity });
             });
         });
-        priceP.innerHTML = "Celková cena je: " + price;
+        priceP.innerHTML = "Celková cena je: " + price + "€";
     }
-
-
-
-
-
-
-
-    // Calculate total items and total price
-    //var totalItems = cart.reduce((total, cartItem) => total + cartItem.quantity, 0);
-    //var totalPrice = cart.reduce((total, cartItem) => total + (cartItem.price * cartItem.quantity), 0);
-
-    //document.querySelector('.cart-container .total.items').textContent = 'Total: ' + totalItems + ' items';
-    //document.querySelector('.cart-container .total.price').textContent = 'Total Price: ' + totalPrice + '€';
 }
 
-function ajax(method, url, data) {
+async function ajax(method, url, data) {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -132,6 +126,7 @@ function ajax(method, url, data) {
         data: JSON.stringify(data),
         success: function (response) {
             updateCartItems(response.cart);
+            updateCartAmount();
             //alert(response.message);
         },
         error: function (error) {
@@ -140,6 +135,7 @@ function ajax(method, url, data) {
     });
 }
 
+/*
 function loadFilteredResults(filter1, filter2) {
     $.ajax({
         method: 'GET',
@@ -153,6 +149,30 @@ function loadFilteredResults(filter1, filter2) {
         },
         error: function (error) {
             console.error('Chyba:', error);
+        }
+    });
+}
+
+ */
+
+async function updateCartAmount() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        method: "GET",
+        url: "/cart-amount",
+        contentType: 'application/json',
+        success: function (response) {
+            let amount = response.amount;
+            let cartAmount = document.querySelector(".cart-amount");
+            cartAmount.innerHTML = amount;
+        },
+        error: function (error) {
+            console.error("Error:", error);
         }
     });
 }

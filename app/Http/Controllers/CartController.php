@@ -15,12 +15,14 @@ class CartController extends Controller
         $cart = session()->get("cart", "[]");
         $cartArray = json_decode($cart, true);
         $cartItems = [];
+        $price = 0;
 
         if (is_array($cartArray)) {
             foreach ($cartArray as $cartItem) {
                 $beerId = $cartItem["beer_id"];
                 $quantity = $cartItem["quantity"];
                 $beer = Beer::find($beerId);
+                $price += ($cartItem["price"] * $cartItem["quantity"]);
                 if ($beer) {
                     $cartItems[] = [
                         "beer" => $beer,
@@ -30,7 +32,7 @@ class CartController extends Controller
             }
         }
 
-        return view("cart.show", ["cartItems" => $cartItems]);
+        return view("cart.show", ["cartItems" => $cartItems, "price" => $price]);
     }
 
     public function add() {
@@ -92,6 +94,20 @@ class CartController extends Controller
             return response()->json(['message' => "Položka nebola nájdená"]);
         }
 
+    }
+
+    public function amount() {
+        $cart = session()->get("cart", "[]");
+        $cartArray = json_decode($cart, true);
+
+        $amount = 0;
+        if (is_array($cartArray)) {
+            foreach ($cartArray as $cartItem) {
+                $amount += $cartItem["quantity"];
+            }
+        }
+
+        return response()->json(["amount" => $amount]);
     }
 
     public function buy() {

@@ -55,6 +55,8 @@ Route::post("/logout", [UserController::class, "logout"])->middleware("auth");
 
 Route::get("/cart", [CartController::class, "show"]);
 
+Route::get("/cart-amount", [CartController::class, "amount"]);
+
 Route::post("/add-to-cart", [CartController::class, "add"]);
 
 Route::post("update-cart", [CartController::class, "update"]);

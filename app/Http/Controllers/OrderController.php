@@ -14,7 +14,7 @@ class OrderController extends Controller
         $price = 0;
         if (is_array($cartArray)) {
             foreach ($cartArray as $cartItem) {
-                $price += $cartItem["price"];
+                $price += ($cartItem["price"] * $cartItem["quantity"]);
             }
         }
 
