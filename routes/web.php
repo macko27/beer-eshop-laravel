@@ -65,7 +65,7 @@ Route::delete("/cart-delete", [CartController::class, "delete"]);
 
 Route::get("/cart/order", [OrderController::class, "show"]);
 
-Route::post("order", [OrderController::class, "add"]);
+Route::post("/order", [OrderController::class, "add"]);
 
 Route::get("/{user_id}", [UserController::class, "show"])->middleware("auth");
 

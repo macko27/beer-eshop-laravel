@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Beer;
-use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -27,12 +26,8 @@ class BeerController extends Controller
     }
 
     public function show(Beer $beer) {
-        $beerId = $beer->id;
-        $userId = auth()->id();
-        $reviews = Review::where("beer_id", $beerId)->where("user_id", $userId)->get();
         return view("beers.beer", [
             "beer" => $beer,
-            "reviews" => $reviews
         ]);
     }
 

@@ -29,7 +29,5 @@
             </div>
         </div>
 
-        <x-reviews :reviews="$reviews" />
-
 </div>
 </x-layout>

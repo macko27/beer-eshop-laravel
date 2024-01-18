@@ -45,7 +45,7 @@
 
             <div class="mb-3">
                 <label for="description" class="form-label">Popis</label>
-                <textarea class="form-control" id="description" name="description" rows="3" required>{{old("description")}}</textarea>
+                <textarea class="form-control" id="description" name="description" rows="3">{{old("description")}}</textarea>
             </div>
             @error('description')
             <p class="wrongInput text-re-500 text-xs mt-1">{{$message}}</p>

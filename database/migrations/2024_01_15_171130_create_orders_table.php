@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer("state");
             $table->string("address");
             $table->integer("psc");
-            $table->longText("description");
+            $table->longText("description")->nullable();
             $table->timestamps();
         });
     }
