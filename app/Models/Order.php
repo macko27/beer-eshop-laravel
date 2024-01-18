@@ -13,6 +13,7 @@ class Order extends Model
         "email",
         "state",
         "address",
+        "city",
         "psc",
         "description"
     ];

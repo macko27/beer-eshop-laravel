@@ -63,11 +63,16 @@ Route::post("update-cart", [CartController::class, "update"]);
 
 Route::delete("/cart-delete", [CartController::class, "delete"]);
 
-Route::get("/cart/order", [OrderController::class, "show"]);
+Route::get("/cart/order", [OrderController::class, "form"]);
 
 Route::post("/order", [OrderController::class, "add"]);
 
-Route::get("/{user_id}", [UserController::class, "show"])->middleware("auth");
+Route::get("/order/{order_id}/cancel", [OrderController::class, "cancel"])->middleware("auth");
+
+Route::get("{user_name}/order/{order_id}", [OrderController::class, "get"])->middleware("auth");;
+
+
+Route::get("/{user_id}", [OrderController::class, "show"])->middleware("auth");
 
 //orders
 

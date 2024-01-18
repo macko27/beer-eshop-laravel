@@ -56,37 +56,4 @@ class UserController extends Controller
 
         return redirect("/");
     }
-
-    public function show($userName) {
-        $user = User::where("name", $userName)->first();
-        if (!$user || $userName != auth()->user()->name) {
-            abort(404);
-        }
-
-        $allOrders = [];
-        if ($user != null) {
-            $userID = $user->id;
-            $orders = Order::where("user_id", $userID)->get();
-
-            foreach ($orders as $order) {
-                $orderID = $order->id;
-                $orderBeers = BeerOrder::where("order_id", $orderID)->get();
-                $beers = [];
-                $price = 0;
-                foreach ($orderBeers as $orderBeer) {
-                    $beer = Beer::where("id", $orderBeer->beer_id)->get();
-                    $beer->quantity = $orderBeer->quantity;
-                    $price += $beer["price"] * $beer->quantity;
-                    $beers[] = $beer;
-                }
-                $order->price = $price;
-                $order->beers = $beers;
-                $allOrders[] = $order;
-            }
-            dd($orders);
-            return view("users.show", ["user" => $user, "orders" => $allOrders]);
-        } else {
-            abort(404);
-        }
-    }
 }

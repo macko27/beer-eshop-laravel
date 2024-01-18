@@ -1,58 +1,70 @@
 <x-layout>
-    <div class="container-form-add">
-        <h2 class="mb-4">Celková cena: {{$price}}€</h2>
-        <form method="POST" action="/order" enctype="multipart/form-data">
-            @csrf
-            <div class="mb-3">
-                <label for="name" class="form-label">Meno a priezvisko</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{old("name")}}" required>
+    <div class="cart-container">
+    <h1>Všetky objednávky</h1>
+        <form action="/{{$user?->name}}" method="get">
+            <div class="row">
+                <div class="col-md-6">
+                    <select class="form-select my-4" aria-label="Default select example" name="filter">
+                        <option value="all" selected>Všetky objednávky</option>
+                        <option value="0">Objednané</option>
+                        <option value="1">Potvrdené</option>
+                        <option value="2">Zrušené</option>
+                        <option value="3">Odoslané</option>
+                    </select>
+                </div>
+                <div class="col-md-3 my-4">
+                    <button class="btn-custom" type="submit">Filtruj</button>
+                </div>
             </div>
-            @error('name')
-            <p class="wrongInput text-re-500 text-xs mt-1">{{$message}}</p>
-            @enderror
-
-            <div class="mb-3">
-                <label for="phoneNumber" class="form-label">Telefónne číslo</label>
-                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="{{old("style")}}" required>
-            </div>
-            @error('phoneNumber')
-            <p class="wrongInput text-re-500 text-xs mt-1">{{$message}}</p>
-            @enderror
-
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="text" class="form-control" id="email" name="email" value="{{old("type")}}" required>
-            </div>
-            @error('email')
-            <p class="wrongInput text-re-500 text-xs mt-1">{{$message}}</p>
-            @enderror
-
-            <div class="mb-3">
-                <label for="address" class="form-label">Adresa</label>
-                <input type="text" min="0" class="form-control" id="address" name="address" value="{{old("price")}}" required>
-            </div>
-            @error('address')
-            <p class="wrongInput text-re-500 text-xs mt-1">{{$message}}</p>
-            @enderror
-
-            <div class="mb-3">
-                <label for="psc" class="form-label">PSČ</label>
-                <input type="text" min="0" class="form-control" id="psc" name="psc" value="{{old("degree")}}" required>
-            </div>
-            @error('psc')
-            <p class="wrongInput text-re-500 text-xs mt-1">{{$message}}</p>
-            @enderror
-
-            <div class="mb-3">
-                <label for="description" class="form-label">Popis</label>
-                <textarea class="form-control" id="description" name="description" rows="3">{{old("description")}}</textarea>
-            </div>
-            @error('description')
-            <p class="wrongInput text-re-500 text-xs mt-1">{{$message}}</p>
-            @enderror
-
-            <button class="btn btn-custom" id="beerCreate" type="submit">Kúpiť</button>
-
         </form>
+    @if (count($orders) > 0)
+        <table>
+            @csrf
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Meno a priezvisko</th>
+                <th>Telefón</th>
+                <th>Stav</th>
+                <th>Zrušiť</th>
+            </tr>
+            </thead>
+
+            <tbody>
+                @foreach ($orders as $order)
+                    <tr>
+                        <td><a href="{{$user->name}}/order/{{$order->id}}">{{$order->id}}</a></td>
+                        <td>{{$order->name}}</td>
+                        <td>{{$order->phoneNumber}}</td>
+                        @switch($order->state)
+                            @case(0)
+                                <td>Objednane</td>
+                            @break
+
+                            @case(1)
+                                <td>Potvrdene</td>
+                                @break
+
+                            @case(2)
+                                <td>Zrusene</td>
+                                @break
+
+                            @case(3)
+                                <td>Odoslane</td>
+                                @break
+                        @endswitch
+                        @if($order->state != 2 && $order->satte != 1 && $order->satte != 3)
+                            <td>
+                                <a href="/order/{{$order->id}}/cancel"><i class="bi bi-x-lg"></i></a>
+                            </td>
+                        @endif
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @else
+        <p>Žiadne objednávky</p>
+    @endif
     </div>
+
 </x-layout>

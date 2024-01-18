@@ -5,12 +5,40 @@ namespace App\Http\Controllers;
 use App\Models\Beer;
 use App\Models\BeerOrder;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
 {
-    public function show() {
+    public function show($userName) {
+        $user = User::where("name", $userName)->first();
+        if (!$user || $userName != auth()->user()->name) {
+            abort(404);
+        }
+
+        $filter = request()->query("filter");
+
+        if (isset($filter) && $filter != "all") {
+            if ($userName == "admin") {
+                $orders = Order::where("state", "LIKE", "%{$filter}%")->get();
+            } else {
+                $userID = $user->id;
+                $orders = Order::where("state", "LIKE", "%{$filter}%")->andWhere("user_id", $userID)->get();
+            }
+        } else {
+            if ($userName == "admin") {
+                $orders = Order::all();
+            } else {
+                $userID = $user->id;
+                $orders = Order::where("user_id", $userID)->get();
+            }
+        }
+
+        return view("orders.show", ["user" => $user, "orders" => $orders]);
+    }
+
+    public function form() {
         $cart = session()->get("cart", "[]");
         $cartArray = json_decode($cart, true);
 
@@ -21,7 +49,7 @@ class OrderController extends Controller
             }
         }
 
-        return view("orders.show", ["price" => $price]);
+        return view("orders.form", ["price" => $price]);
     }
 
     public function add(Request $request) {
@@ -34,10 +62,11 @@ class OrderController extends Controller
 
         $newOrderData = $request->validate([
             "name" => "required|max:20",
-            "phoneNumber" => ["required", "numeric"],
+            "phoneNumber" => ["required", "numeric", "digits:10"],
             "email" => "required",
             "address" => "required",
-            "psc" => ["required", "numeric"],
+            "city" => "required",
+            "psc" => ["required", "numeric", "digits:5"],
             "description" => "max:50"
         ]);
 
@@ -46,6 +75,7 @@ class OrderController extends Controller
         $newOrder->phoneNumber = $newOrderData["phoneNumber"];
         $newOrder->email = $newOrderData["email"];
         $newOrder->address = $newOrderData["address"];
+        $newOrder->city = $newOrderData["city"];
         $newOrder->psc = $newOrderData["psc"];
         $newOrder->description = $newOrderData["description"];
         $newOrder->state = 0;
@@ -67,5 +97,25 @@ class OrderController extends Controller
         session()->forget("cart");
 
         return redirect("/")->with("message", "Objednávka úspešne uskutočnená!");
+    }
+
+    public function get($user_name, $order_id) {
+        $orderBeers = BeerOrder::where("order_id", $order_id)->get();
+        $beers = [];
+        $price = 0;
+        foreach ($orderBeers as $orderBeer) {
+            $beer = Beer::where("id", $orderBeer->beer_id)->first();
+            $beer->quantity = $orderBeer->quantity;
+            $price += $beer->price * $beer->quantity;
+            $beers[] = $beer;
+        }
+        return view("orders.order", ["beers" => $beers, "price" => $price]);
+    }
+
+    public function cancel($order_id) {
+        $order = Order::where("id", $order_id)->first();
+        $order->state = 2;
+        $order->save();
+        return back();
     }
 }

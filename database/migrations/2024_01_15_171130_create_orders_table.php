@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("email");
             $table->integer("state");
             $table->string("address");
+            $table->string("city");
             $table->integer("psc");
             $table->longText("description")->nullable();
             $table->timestamps();

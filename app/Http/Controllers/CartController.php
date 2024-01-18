@@ -96,7 +96,6 @@ class CartController extends Controller
         } else {
             return response()->json(['message' => "Položka nebola nájdená"]);
         }
-
     }
 
     public function amount() {
@@ -111,32 +110,5 @@ class CartController extends Controller
         }
 
         return response()->json(["amount" => $amount]);
-    }
-
-    public function buy() {
-        $cart = session()->get("cart", "[]");
-        $cartArray = json_decode($cart, true);
-
-
-        if (auth()->check()) {
-            $userID = auth()->user()->id;
-            $order = new Order();
-            $order->user_id = $userID;
-            $order->state = 0;
-            $order->save();
-
-            $orderID = $order->id;
-            if (is_array($cartArray)) {
-                foreach ($cartArray as $cartItem) {
-                    $beerOrder = new BeerOrder();
-                    $beerOrder->order_id = $orderID;
-                    $beerOrder->beer_id = $cartItem["beer_id"];
-                    $beerOrder->quantity = $cartItem["quantity"];
-                    $beerOrder->save();
-                }
-            }
-        }
-
-        return redirect("/");
     }
 }
