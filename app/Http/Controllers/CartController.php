@@ -4,10 +4,6 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Beer;
-use App\Models\BeerOrder;
-use App\Models\Cart;
-use App\Models\Order;
-use App\Models\Review;
 
 class CartController extends Controller
 {

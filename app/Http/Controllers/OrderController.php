@@ -7,7 +7,6 @@ use App\Models\BeerOrder;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
 {

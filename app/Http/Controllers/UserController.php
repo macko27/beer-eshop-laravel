@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Beer;
-use App\Models\BeerOrder;
-use App\Models\Order;
-use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;

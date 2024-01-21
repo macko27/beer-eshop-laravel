@@ -1,15 +1,13 @@
 //import './bootstrap.js';
 
-
 document.addEventListener("DOMContentLoaded", function () {
 
     setAddToCartButtons();
-    setQuantityInputs()
+    setQuantityInputs();
     setDeleteButtons();
 
     updateCartAmount();
 
-    //navbar scroll listener
     $(window).on('scroll', function () {
         let navbar = $('.navbar');
         if ($(window).scrollTop() > 50) {
@@ -85,7 +83,6 @@ async function ajax(method, url, data) {
         success: function (response) {
             updateCartItems(response.cart);
             updateCartAmount();
-            //alert(response.message);
         },
         error: function (error) {
             console.error("Error:", error);

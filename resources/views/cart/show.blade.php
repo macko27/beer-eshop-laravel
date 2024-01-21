@@ -17,15 +17,15 @@
                         <tbody>
                         @foreach ($cartItems as $cartItem)
                             <tr id="cartItem">
-                                <td><img src="{{asset("storage/" . $cartItem['beer']->picture)}}" alt="beer"></td>
-                                <td>{{ $cartItem['beer']->name }}</td>
+                                <td><img src="{{asset("storage/" . $cartItem["beer"]->picture)}}" alt="beer"></td>
+                                <td>{{ $cartItem["beer"]->name }}</td>
 
                                 <td>
-                                    <input class="text-center me-3 beer-quantity-change" data-beer-id="{{ $cartItem['beer']->id }}" type="number" value="{{ $cartItem['quantity'] }}">
+                                    <input class="text-center me-3 beer-quantity-change" data-beer-id="{{ $cartItem["beer"]->id }}" type="number" value="{{ $cartItem["quantity"] }}">
                                 </td>
-                                <td>{{ $cartItem['beer']->price * $cartItem['quantity'] }}€</td>
+                                <td>{{ $cartItem["beer"]->price * $cartItem["quantity"] }}€</td>
                                 <td>
-                                    <button class="cart-delete" data-beer-id="{{ $cartItem['beer']->id }}"><i class="bi bi-x-lg"></i></button>
+                                    <button class="cart-delete" data-beer-id="{{ $cartItem["beer"]->id }}"><i class="bi bi-x-lg"></i></button>
                                 </td>
                             </tr>
                         @endforeach
