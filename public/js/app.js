@@ -3,31 +3,9 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    //add to cart button
-    let addToCartButton = $(".container-beer .addToCart");
-    if (addToCartButton.length) {
-        addToCartButton.on("click", function () {
-            let beerID = $(".beerID").val();
-            let quantity = $("#beerQuantity").val();
-            ajax("POST", "/add-to-cart", { "beerID": beerID, "quantity": quantity });
-        });
-    }
-
-    //quantity change inputs
-    let quantityInputs = $(".beer-quantity-change");
-    quantityInputs.on("change", function () {
-        let beerID = $(this).data("beerId");
-        let newQuantity = $(this).val();
-        ajax("POST", "/update-cart", { "beerID": beerID, "newQuantity": newQuantity });
-    });
-
-    //delete buttons
-    let deleteButtons = $(".cart-delete");
-    deleteButtons.on("click", function (event) {
-        event.preventDefault();
-        let beerID = $(this).data("beerId");
-        ajax("DELETE", "/cart-delete", { "beerID": beerID });
-    });
+    setAddToCartButtons();
+    setQuantityInputs()
+    setDeleteButtons();
 
     updateCartAmount();
 
@@ -45,13 +23,16 @@ document.addEventListener("DOMContentLoaded", function () {
         $('#customAlert').alert('close');
     }, 2000);
 
-    document.getElementById("selectMenu").addEventListener('change', function () {
-        this.form.submit();
-    });
+    let menu = document.getElementById("selectMenu");
+    if (menu) {
+        menu.addEventListener('change', function () {
+            this.form.submit();
+        });
+    }
 });
 
 async function updateCartItems(cart) {
-    let tableBody = document.querySelector(".cart-container table tbody");
+    let tableBody = document.querySelector(".container table tbody");
     if (!tableBody) {
         return;
     }
@@ -59,7 +40,7 @@ async function updateCartItems(cart) {
     let cartArray = Object.values(cart);
 
     if (cartArray.length === 0) {
-        tableBody = document.querySelector(".cart-container");
+        tableBody = document.querySelector(".container");
         tableBody.innerHTML = "";
         let p = document.createElement("p");
         let h1 = document.createElement("h1");
@@ -82,19 +63,8 @@ async function updateCartItems(cart) {
             newRow.id = "cartItem";
             tableBody.appendChild(newRow);
 
-            let quantityInputs = $(".beer-quantity-change");
-            quantityInputs.on("change", function () {
-                let beerID = $(this).data("beerId");
-                let newQuantity = $(this).val();
-                ajax("POST", "/update-cart", { "beerID": beerID, "newQuantity": newQuantity });
-            });
-
-            let deleteButtons = $(".cart-delete");
-            deleteButtons.on("click", function (event) {
-                event.preventDefault();
-                let beerID = $(this).data("beerId");
-                ajax("DELETE", "/cart-delete", { "beerID": beerID });
-            });
+            setQuantityInputs();
+            setDeleteButtons();
         });
         priceP.innerHTML = "Celková cena je: " + price + "€";
     }
@@ -142,5 +112,34 @@ async function updateCartAmount() {
         error: function (error) {
             console.error("Error:", error);
         }
+    });
+}
+
+function setAddToCartButtons() {
+    let addToCartButton = $(".container-beer .addToCart");
+    if (addToCartButton.length) {
+        addToCartButton.on("click", function () {
+            let beerID = $(".beerID").val();
+            let quantity = $("#beerQuantity").val();
+            ajax("POST", "/add-to-cart", { "beerID": beerID, "quantity": quantity });
+        });
+    }
+}
+
+function setQuantityInputs() {
+    let quantityInputs = $(".beer-quantity-change");
+    quantityInputs.on("change", function () {
+        let beerID = $(this).data("beerId");
+        let newQuantity = $(this).val();
+        ajax("POST", "/update-cart", { "beerID": beerID, "newQuantity": newQuantity });
+    });
+}
+
+function setDeleteButtons() {
+    let deleteButtons = $(".cart-delete");
+    deleteButtons.on("click", function (event) {
+        event.preventDefault();
+        let beerID = $(this).data("beerId");
+        ajax("DELETE", "/cart-delete", { "beerID": beerID });
     });
 }
