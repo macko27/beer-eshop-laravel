@@ -9,7 +9,7 @@
                         <option value="0">Objednané</option>
                         <option value="1">Potvrdené</option>
                         <option value="2">Zrušené</option>
-                        <option value="3">Odoslané</option>
+                        <option value="3">Poslať</option>
                     </select>
                 </div>
             </div>
