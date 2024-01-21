@@ -75,9 +75,11 @@ Route::get("/order/{order_id}/edit", [OrderController::class, "edit"])->middlewa
 
 Route::post("/order/{order_id}/update", [OrderController::class, "update"])->middleware("auth");
 
+Route::get("/order/{order_id}/confirm", [OrderController::class, "confirm"])->middleware("auth");
+
+Route::get("/order/{order_id}/send", [OrderController::class, "send"])->middleware("auth");
+
 Route::get("{user_name}/order/{order_id}", [OrderController::class, "get"])->middleware("auth");
-
-
 
 Route::get("/{user_id}", [OrderController::class, "show"])->middleware("auth");
 

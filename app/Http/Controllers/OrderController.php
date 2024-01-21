@@ -114,9 +114,13 @@ class OrderController extends Controller
 
     public function cancel($order_id) {
         $order = Order::where("id", $order_id)->first();
-        $order->state = 2;
-        $order->save();
-        return back()->with("Objednávka zrušená!");
+        if (($order->user_id == auth()->user()->getAuthIdentifier()) || auth()->user()?->name == "admin") {
+            $order->state = 2;
+            $order->save();
+            return back()->with("Objednávka zrušená!");
+        } else {
+            abort(403, "Unauthorized Action");
+        }
     }
 
     public function delete($order_id)
@@ -132,7 +136,12 @@ class OrderController extends Controller
 
     public function edit($order_id) {
         $order = Order::where("id", $order_id)->first();
-        return view("orders.edit", ["order" => $order]);
+        if (($order->user_id == auth()->user()->getAuthIdentifier()) || auth()->user()?->name == "admin") {
+            $order = Order::where("id", $order_id)->first();
+            return view("orders.edit", ["order" => $order]);
+        } else {
+            abort(403, "Unauthorized Action");
+        }
     }
 
     public function update(Request $request, $order_id) {
@@ -146,6 +155,28 @@ class OrderController extends Controller
             ]);
             $order->update($updatedOrder);
             return redirect("/$user");
+        } else {
+            abort(403, "Unauthorized Action");
+        }
+    }
+
+    public function confirm($order_id) {
+        $order = Order::where("id", $order_id)->first();
+        if (($order->user_id == auth()->user()->getAuthIdentifier()) || auth()->user()?->name == "admin") {
+            $order->state = 1;
+            $order->save();
+            return back()->with("Objednávka potvrdená!");
+        } else {
+            abort(403, "Unauthorized Action");
+        }
+    }
+
+    public function send($order_id) {
+        $order = Order::where("id", $order_id)->first();
+        if (($order->user_id == auth()->user()->getAuthIdentifier()) || auth()->user()?->name == "admin") {
+            $order->state = 3;
+            $order->save();
+            return back();
         } else {
             abort(403, "Unauthorized Action");
         }

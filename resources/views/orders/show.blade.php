@@ -28,6 +28,10 @@
                     <th scope="col">Zrušiť</th>
                     <th scope="col">Vymazať</th>
                     <th scope="col">Upraviť</th>
+                    @if(auth()->user()?->name == "admin")
+                        <th scope="col">Potvrdiť</th>
+                        <th scope="col">Poslaná</th>
+                    @endif
                 </tr>
                 </thead>
 
@@ -55,20 +59,42 @@
                                 <td>Odoslane</td>
                                 @break
                         @endswitch
-                        @if($order->state != 2 && $order->state != 1 && $order->state != 3)
+
+                        @if($order->state != 3 && (($order->state != 2 && $order->state != 1) || (auth()->user()?->name == "admin")))
                             <td>
                                 <a href="/order/{{$order->id}}/cancel"><i class="bi bi-x-lg"></i></a>
                             </td>
                         @else
                             <td>-</td>
                         @endif
+
                         @if($order->state == 2)
                             <td><a href="/order/{{$order->id}}/delete"><i class="bi bi-trash"></i></a></td>
                         @else
                             <td>-</td>
                         @endif
 
-                        <td><a href="/order/{{$order->id}}/edit"><i class="bi bi-pen"></i></a></td>
+                        @if($order->state == 0)
+                            <td><a href="/order/{{$order->id}}/edit"><i class="bi bi-pen"></i></a></td>
+                        @else
+                            <td>-</td>
+                        @endif
+
+                        @if(auth()->user()?->name == "admin")
+                            @if($order->state == 0)
+                                <td><a href="/order/{{$order->id}}/confirm"><i class="bi bi-check"></i></a></td>
+                            @else
+                                <td>-</td>
+                            @endif
+
+                            @if($order->state == 1)
+                                    <td><a href="/order/{{$order->id}}/send"><i class="bi bi-check"></i></a></td>
+                            @elseif($order->state == 3)
+                                <td>Odoslané</td>
+                            @else
+                                <td>-</td>
+                            @endif
+                        @endif
                     </tr>
                 @endforeach
                 </tbody>

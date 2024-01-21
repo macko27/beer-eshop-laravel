@@ -90,7 +90,7 @@
 </main>
 
 <footer>
-    <div class="container">
+    <div class="container-fluid py-4 px-4">
         <div class="row">
             <div class="col-md-6">
                 <h6 class="text-uppercase fw-bold mb-4">
