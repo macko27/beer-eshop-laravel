@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $('#customAlert').alert('close');
     }, 2000);
 
-    document.getElementById('selectMenu').addEventListener('change', function () {
+    document.getElementById("selectMenu").addEventListener('change', function () {
         this.form.submit();
     });
 });

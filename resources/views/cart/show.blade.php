@@ -1,41 +1,43 @@
 <x-layout>
-    <div class="cart-container">
     <h1 class="mb-4">Tvoj nákupný košík</h1>
+    <div class="container d-flex justify-content-center">
 
     @if (count($cartItems) > 0)
-        <table>
-            @csrf
-            <thead>
-            <tr>
-                <th>Obrázok</th>
-                <th>Názov</th>
-                <th>Množstvo</th>
-                <th>Cena</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach ($cartItems as $cartItem)
-                <tr id="cartItem">
-                    <td><img src="{{asset("storage/" . $cartItem['beer']->picture)}}" alt="beer"></td>
-                    <td>{{ $cartItem['beer']->name }}</td>
-
-                    <td>
-                        <input class="text-center me-3 beer-quantity-change" data-beer-id="{{ $cartItem['beer']->id }}" type="number" value="{{ $cartItem['quantity'] }}">
-                    </td>
-                    <td>{{ $cartItem['beer']->price * $cartItem['quantity'] }}€</td>
-                    <td>
-                        <button class="cart-delete" data-beer-id="{{ $cartItem['beer']->id }}"><i class="bi bi-x-lg"></i></button>
-                    </td>
+        <div class="table-responsive">
+            <table>
+                @csrf
+                <thead>
+                <tr>
+                    <th>Obrázok</th>
+                    <th>Názov</th>
+                    <th>Množstvo</th>
+                    <th>Cena</th>
                 </tr>
-            @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                @foreach ($cartItems as $cartItem)
+                    <tr id="cartItem">
+                        <td><img src="{{asset("storage/" . $cartItem['beer']->picture)}}" alt="beer"></td>
+                        <td>{{ $cartItem['beer']->name }}</td>
 
-        <p class="my-4" id="cart-price">Celková cena je: {{$price}}€</p>
+                        <td>
+                            <input class="text-center me-3 beer-quantity-change" data-beer-id="{{ $cartItem['beer']->id }}" type="number" value="{{ $cartItem['quantity'] }}">
+                        </td>
+                        <td>{{ $cartItem['beer']->price * $cartItem['quantity'] }}€</td>
+                        <td>
+                            <button class="cart-delete" data-beer-id="{{ $cartItem['beer']->id }}"><i class="bi bi-x-lg"></i></button>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
 
-        <a class="my-4 btn btn-custom" href="/cart/order">Pokračovať</a>
-    @else
-        <p>Your cart is empty.</p>
-    @endif
-    </div>
+            <p class="my-4" id="cart-price">Celková cena je: {{$price}}€</p>
+
+            <a class="my-4 btn btn-custom" href="/cart/order">Pokračovať</a>
+            @else
+                <p>Your cart is empty.</p>
+            @endif
+        </div>
+        </div>
 </x-layout>

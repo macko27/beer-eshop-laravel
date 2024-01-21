@@ -49,23 +49,25 @@
 
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a href="/cart" class="nav-link cart">
-                        <i class="bi bi-cart"></i>
-                        <div class="cart-number">
-                            <span class="cart-amount">0</span>
-                        </div>
-                    </a>
+                    <div>
+                        <a href="/cart" class="nav-link cart mx-1">
+                            <i class="bi bi-cart"></i>
+                            <div class="cart-number">
+                                <span class="cart-amount">0</span>
+                            </div>
+                        </a>
+                    </div>
                 </li>
 
                 @auth
                     <li class="nav-item">
-                        <a class="nav-link" href="/{{auth()->user()?->name}}">{{auth()->user()?->name}}</a>
+                        <a class="nav-link mx-1" href="/{{auth()->user()?->name}}">{{auth()->user()?->name}}</a>
                     </li>
 
                     <li class="nav-item">
                         <form class="inline" method="POST" action="/logout">
                             @csrf
-                            <button class="nav-link" type="submit">Odhlásenie</button>
+                            <button class="nav-link mx-1 w-100 text-start" type="submit">Odhlásenie</button>
                         </form>
                     </li>
                 @else

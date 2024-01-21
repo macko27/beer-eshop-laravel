@@ -1,10 +1,10 @@
 <x-layout>
-    <div class="cart-container">
+    <div class="container d-flex row">
     <h1>Všetky objednávky</h1>
         <form action="/{{$user?->name}}" method="get">
             <div class="row">
                 <div class="col-md-6">
-                    <select class="form-select my-4" aria-label="Default select example" name="filter">
+                    <select class="form-select my-4" id="selectMenu" aria-label="Default select example" name="filter">
                         <option value="all" selected>Všetky objednávky</option>
                         <option value="0">Objednané</option>
                         <option value="1">Potvrdené</option>
@@ -12,34 +12,36 @@
                         <option value="3">Odoslané</option>
                     </select>
                 </div>
-                <div class="col-md-3 my-4">
-                    <button class="btn-custom" type="submit">Filtruj</button>
-                </div>
             </div>
         </form>
     @if (count($orders) > 0)
-        <table>
-            @csrf
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Meno a priezvisko</th>
-                <th>Telefón</th>
-                <th>Stav</th>
-                <th>Zrušiť</th>
-            </tr>
-            </thead>
+        <div class="table-responsive">
+            <table class="table table-striped table-light table-sm text-center">
+                @csrf
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Meno a priezvisko</th>
+                    <th scope="col">Telefón</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Stav</th>
+                    <th scope="col">Zrušiť</th>
+                    <th scope="col">Vymazať</th>
+                    <th scope="col">Upraviť</th>
+                </tr>
+                </thead>
 
-            <tbody>
+                <tbody>
                 @foreach ($orders as $order)
                     <tr>
-                        <td><a href="{{$user->name}}/order/{{$order->id}}">{{$order->id}}</a></td>
+                        <th scope="row"><a href="{{$user->name}}/order/{{$order->id}}">{{$order->id}}</a></th>
                         <td>{{$order->name}}</td>
                         <td>{{$order->phoneNumber}}</td>
+                        <td>{{$order->email}}</td>
                         @switch($order->state)
                             @case(0)
                                 <td>Objednane</td>
-                            @break
+                                @break
 
                             @case(1)
                                 <td>Potvrdene</td>
@@ -53,15 +55,25 @@
                                 <td>Odoslane</td>
                                 @break
                         @endswitch
-                        @if($order->state != 2 && $order->satte != 1 && $order->satte != 3)
+                        @if($order->state != 2 && $order->state != 1 && $order->state != 3)
                             <td>
                                 <a href="/order/{{$order->id}}/cancel"><i class="bi bi-x-lg"></i></a>
                             </td>
+                        @else
+                            <td>-</td>
                         @endif
+                        @if($order->state == 2)
+                            <td><a href="/order/{{$order->id}}/delete"><i class="bi bi-trash"></i></a></td>
+                        @else
+                            <td>-</td>
+                        @endif
+
+                        <td><a href="/order/{{$order->id}}/edit"><i class="bi bi-pen"></i></a></td>
                     </tr>
                 @endforeach
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     @else
         <p>Žiadne objednávky</p>
     @endif

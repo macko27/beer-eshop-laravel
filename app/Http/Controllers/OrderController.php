@@ -62,7 +62,7 @@ class OrderController extends Controller
 
         $newOrderData = $request->validate([
             "name" => "required|max:20",
-            "phoneNumber" => ["required", "numeric", "digits:10"],
+            "phoneNumber" => "required|string|min:10|max:10",
             "email" => "required",
             "address" => "required",
             "city" => "required",
@@ -116,6 +116,38 @@ class OrderController extends Controller
         $order = Order::where("id", $order_id)->first();
         $order->state = 2;
         $order->save();
-        return back();
+        return back()->with("Objednávka zrušená!");
+    }
+
+    public function delete($order_id)
+    {
+        $order = Order::where("id", $order_id)->first();
+        if (($order->user_id == auth()->user()->getAuthIdentifier()) || auth()->user()?->name == "admin") {
+            $order->delete();
+            return back()->with("Objednávka vymazaná!");
+        } else {
+            abort(403, "Unauthorized Action");
+        }
+    }
+
+    public function edit($order_id) {
+        $order = Order::where("id", $order_id)->first();
+        return view("orders.edit", ["order" => $order]);
+    }
+
+    public function update(Request $request, $order_id) {
+        $order = Order::where("id", $order_id)->first();
+        $user = auth()->user()?->name;
+        if (($order->user_id == auth()->user()->getAuthIdentifier()) || $user == "admin") {
+            $updatedOrder = $request->validate([
+                "name" => "required|max:20",
+                "phoneNumber" => "required|string|min:10|max:10",
+                "email" => "required",
+            ]);
+            $order->update($updatedOrder);
+            return redirect("/$user");
+        } else {
+            abort(403, "Unauthorized Action");
+        }
     }
 }
